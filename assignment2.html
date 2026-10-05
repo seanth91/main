@@ -1,0 +1,902 @@
+<!DOCTYPE HTML>
+<!--
+    Massively by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license
+    (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>Assignment Two</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+
+    <!-- Vega -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+
+    <!-- Override HTML5 UP styles that can affect Vega text -->
+    <style>
+        #chart1 svg text {
+            background: transparent !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
+
+        #chart1 svg {
+            overflow: visible !important;
+        }
+    </style>
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="index.html" class="logo">My Portfolio</a>
+        </header>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li><a href="index.html">About Me</a></li>
+                <li><a href="assignment1.html">Assignment One</a></li>
+                <li class="active"><a href="assignment2.html">Assignment Two</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Post -->
+            <section class="post">
+
+                <header class="major">
+                    <span class="date">October 5, 2026</span>
+
+                    <h1>Assignment Two</h1>
+
+                    <p>
+                        With this assignment, we were tasked with finding a problematic visualization
+                        somewhere online, and using vega-lite to create a new version that addresses problems with the original version. The source data for the 'problem'
+						chart and my redesign can be found at <a href="yougov.com/en-gb/articles/55370-section-3-relationship-attitudes-and-ideals">yougov.com</a>
+					</p>
+                </header>
+				<figure>
+                    <figcaption class="writeup">
+                        To start, I found the chart below that I found to be visually unappealing, exhibiting several problematic characteristics of a good data visualization.
+						This chart was found on Reddit at <a href="https://www.reddit.com/r/dataisugly">Reddit.com/r/dataisugly</a>:
+						<div style="text-align: center;">
+							<img src="images/Portfolio2BadExample.jpg" alt="Portfolio example">
+						</div>
+                    </figcaption>
+
+                </figure>
+
+				<figure>
+                    <figcaption class="writeup">
+                        I primarily found this chart to be "less than ideal" as it tries to convey too much information without certain datapoints at all. It breaks each milestone into
+						it's own line graph, which could be fine if done correctly - serving a similar purpose to something like a ridgeline graph by showing comparisons of when milestone 
+						events occur over time - but it then relies on strange date scaling on the x-axis to convey survey responses ranging from weeks, to months, and then to years. 
+						I also found the 0-25% y-axis to be a bit claustrophobic in the image, having 9 charts stacked means each one has very little vertical range, so the scaling from 0 to 25
+						happens very quickly, making it hard to identify any given data point by percentage against time.
+					</br>
+					</br>
+						To fix this chart, I first identified a problem with the source data that became more evident after seeing the raw numbers - the number of responses for each question did
+						not appear to sum to 100%, I assumed because they excluded certain survey responses like "N/A" or "Don't wish to answer". Realizing this, I scaled each data point to it's
+						overall proportion for that question, so each milestone summed to 100%. I played around with plotting this data in a few styles, including a stacked line chart or a ridgeline
+						graph, but settled on a heatmap for this data. My reworked chart is below:
+						</figcaption>
+
+                </figure>
+
+
+                <!-- ========================= -->
+                <!-- RELATIONSHIP MILESTONE CHART -->
+                <!-- ========================= -->
+
+                <figure>
+
+                    <div id="chart1" class="chart"></div>
+
+                    <figcaption class="writeup">
+                        I like this heatmap compared to the original because it allows the user to see the 'progression' of these relationship milestones cleanly over time, but
+						also provides easy to see numeric data for any given point. When playing around with other options, the stacked line chart felt problematic as too much of the 
+						data overlapped in certain areas, while the ridgeline looked nice but didn't provide the numeric data as clean as I wanted. This heatmap felt like it solved both
+						of those issues in an optimal way, showing both the relationship trends over time, while also providing explicit numerical data.
+                    </figcaption>
+
+                </figure>
+
+                <!-- Vega-Lite chart -->
+                <script>
+
+                    const spec1 = {
+
+                        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+
+                        "data": {
+                            "values": [
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 24,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 15,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 32,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 14,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 5,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 0,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 3,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 0,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 0,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 0,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 0,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Having sex",
+                                    "percentage": 6,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 4,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 4,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 20,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 32,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 26,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 5,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 7,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 0,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 0,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 0,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 0,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Saying \"I love you\"",
+                                    "percentage": 1,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 1,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 1,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 20,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 34,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 29,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 6,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 7,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 0,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 0,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 0,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 0,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Meeting parents / close family",
+                                    "percentage": 1,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 2,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 1,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 14,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 27,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 33,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 6,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 12,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 1,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 0,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 0,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 0,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Going on holiday",
+                                    "percentage": 2,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 0,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 0,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 1,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 5,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 18,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 7,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 41,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 17,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 4,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 1,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 1,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Moving in",
+                                    "percentage": 5,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 0,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 0,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 1,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 3,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 8,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 6,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 33,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 28,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 11,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 3,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 6,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Getting engaged",
+                                    "percentage": 3,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 0,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 0,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 0,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 0,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 2,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 1,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 23,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 32,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 16,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 6,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 11,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Buying a home",
+                                    "percentage": 7,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 0,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 0,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 0,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 0,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 3,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 1,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 18,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 30,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 20,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 8,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 15,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Getting married",
+                                    "percentage": 6,
+                                    "time": "Marriage*"
+                                },
+
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 0,
+                                    "time": "A week"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 0,
+                                    "time": "2 weeks"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 0,
+                                    "time": "A month"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 0,
+                                    "time": "3 months"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 0,
+                                    "time": "6 months"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 1,
+                                    "time": "9 months"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 15,
+                                    "time": "A year"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 24,
+                                    "time": "2 years"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 21,
+                                    "time": "3 years"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 9,
+                                    "time": "4 years"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 17,
+                                    "time": "5 years+"
+                                },
+                                {
+                                    "milestone": "Having a baby",
+                                    "percentage": 13,
+                                    "time": "Marriage*"
+                                }
+                            ]
+                        },
+
+                        "width": 1000,
+
+                        "height": 700,
+
+                        "title": {
+  							"text": "Relationship Milestones Over Time",
+  							"fontSize": 20,
+  							"fontWeight": "bold"
+						},
+
+                        "layer": [
+
+                            /* -------------------------------- */
+                            /* HEATMAP                           */
+                            /* -------------------------------- */
+
+                            {
+                                "mark": {
+                                    "type": "rect"
+                                },
+
+                                "encoding": {
+
+                                    "x": {
+                                        "field": "milestone",
+                                        "type": "nominal",
+                                        "sort": [
+                                            "Having sex",
+                                            "Saying \"I love you\"",
+                                            "Meeting parents / close family",
+                                            "Going on holiday",
+                                            "Moving in",
+                                            "Getting engaged",
+                                            "Buying a home",
+                                            "Getting married",
+                                            "Having a baby"
+                                        ],
+
+                                        "axis": {
+                                            "labelAngle": -45,
+                                            "labelFontSize": 12,
+                                            "labelLimit": 0,
+											"titleFontSize": 16
+                                        },
+
+                                        "title": "Relationship milestone"
+                                    },
+
+                                    "y": {
+                                        "field": "time",
+                                        "type": "nominal",
+                                        "sort": [
+                                            "A week",
+                                            "2 weeks",
+                                            "A month",
+                                            "3 months",
+                                            "6 months",
+                                            "9 months",
+                                            "A year",
+                                            "2 years",
+                                            "3 years",
+                                            "4 years",
+                                            "5 years+",
+                                            "Marriage*"
+                                        ],
+
+                                        "axis": {
+                                            "labelFontSize": 12,
+											"titleFontSize": 16
+                                        },
+
+                                        "title": "Time since relationship began"
+                                    },
+
+                                    "color": {
+                                        "field": "percentage",
+                                        "type": "quantitative",
+
+                                        "scale": {
+                                            "scheme": "goldred"
+                                        },
+
+                                        "title": "Percentage"
+                                    },
+
+                                    "tooltip": [
+                                        {
+                                            "field": "time",
+                                            "type": "nominal",
+                                            "title": "Time"
+                                        },
+                                        {
+                                            "field": "milestone",
+                                            "type": "nominal",
+                                            "title": "Milestone"
+                                        },
+                                        {
+                                            "field": "percentage",
+                                            "type": "quantitative",
+                                            "title": "Percentage",
+                                            "format": ".0f"
+                                        }
+                                    ]
+                                }
+                            },
+
+
+                            /* -------------------------------- */
+                            /* NUMBERS                           */
+                            /* -------------------------------- */
+
+                            {
+                                "mark": {
+                                    "type": "text",
+                                    "fontSize": 14,
+                                    "fontWeight": "bold",
+                                    "align": "center",
+                                    "baseline": "middle",
+                                    "stroke": "transparent"
+                                },
+
+                                "encoding": {
+
+                                    "x": {
+                                        "field": "milestone",
+                                        "type": "nominal",
+                                        "sort": [
+                                            "Having sex",
+                                            "Saying \"I love you\"",
+                                            "Meeting parents / close family",
+                                            "Going on holiday",
+                                            "Moving in",
+                                            "Getting engaged",
+                                            "Buying a home",
+                                            "Getting married",
+                                            "Having a baby"
+                                        ]
+                                    },
+
+                                    "y": {
+                                        "field": "time",
+                                        "type": "nominal",
+                                        "sort": [
+                                            "A week",
+                                            "2 weeks",
+                                            "A month",
+                                            "3 months",
+                                            "6 months",
+                                            "9 months",
+                                            "A year",
+                                            "2 years",
+                                            "3 years",
+                                            "4 years",
+                                            "5 years+",
+                                            "Marriage*"
+                                        ]
+                                    },
+
+                                    "text": {
+                                        "field": "percentage",
+                                        "type": "quantitative",
+                                        "format": ".0f"
+                                    },
+
+                                    "color": {
+                                        "condition": {
+                                            "test": "datum.percentage >= 18",
+                                            "value": "white"
+                                        },
+
+                                        "value": "black"
+                                    }
+                                }
+                            }
+                        ]
+                    };
+
+
+                    /* Render chart */
+
+                    vegaEmbed(
+                        '#chart1',
+                        spec1,
+                        {
+                            "actions": false,
+                            "renderer": "svg"
+                        }
+                    ).catch(console.error);
+
+                </script>
+
+            </section>
+
+        </div>
+
+
+        <!-- Copyright -->
+        <div id="copyright">
+            <ul>
+                <li>&copy; Untitled</li>
+                <li>
+                    Design:
+                    <a href="https://html5up.net">HTML5 UP</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
